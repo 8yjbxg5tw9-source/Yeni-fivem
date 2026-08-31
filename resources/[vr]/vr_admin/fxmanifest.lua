@@ -15,6 +15,7 @@ shared_scripts {
 server_scripts {
     'server/audit.lua',
     'server/main.lua',
+    'server/tools.lua',
 }
 
 client_scripts {

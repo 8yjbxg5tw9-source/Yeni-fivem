@@ -2,8 +2,8 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
-name 'vr_banking'
-description '196RP — Bank: hesablar, köçürmə, əmanət faizi, kredit'
+name 'vr_media'
+description '196RP — Media: TV canlı efir, radiostansiyalar + DJ, məlumat sızması, reklam lövhələri'
 author '196RP Development'
 version '1.0.0'
 
@@ -13,8 +13,10 @@ shared_scripts {
 }
 
 server_scripts {
-    'server/main.lua',
-    'server/cards.lua',
+    'server/broadcast.lua',
+    'server/radio.lua',
+    'server/leaks.lua',
+    'server/billboards.lua',
 }
 
 client_scripts {
@@ -23,5 +25,5 @@ client_scripts {
 
 dependencies {
     'vr_core',
-    'vr_identity',
+    'vr_phone',
 }

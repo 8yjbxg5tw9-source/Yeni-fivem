@@ -18,6 +18,10 @@ server_scripts {
     'server/blackmarket.lua',
     'server/moneylaundering.lua',
     'server/smuggling.lua',
+    'server/weaponcraft.lua',
+    'server/fakedocs.lua',
+    'server/cartheft.lua',
+    'server/cybercrime.lua',
 }
 
 client_scripts {

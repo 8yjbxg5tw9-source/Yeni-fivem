@@ -37,10 +37,13 @@
 - [`docs/beta/`](docs/beta/) — Beta planı, stress-test, test checklist, balans, roadmap
 - [`docs/acilis/`](docs/acilis/) — Season 1 planı, post-launch, DR planı, təhvil paketi
 - [`docs/qurasdirma-telimatı.md`](docs/qurasdirma-telimatı.md) — Server quraşdırma təlimatı
-- [`sql/`](sql/) — MariaDB schema (9 fayl, icra qaydası ilə)
+- [`discord-bot/`](discord-bot/) — Node.js Discord botu (whitelist, log, kadr, statistika)
+- [`web/`](web/) — Veb səhifə (landing, qaydalar, whitelist, statistika)
+- [`branding/`](branding/) — Loqo (SVG) və loading screen
+- [`sql/`](sql/) — MariaDB schema (10 fayl, icra qaydası ilə)
 - [`resources/[vr]/`](resources/[vr]/) — 196RP custom resursları (kod)
 - [`server.cfg`](server.cfg) — server konfiqi
 
 ## Status
 
-**Addım 10 / 10 — TAMAMLANDI** ✅ Layihə yekunlaşdı: 27 resurs + 9 SQL faylı + 25 sənəd.
+**Addım 10 / 10 — TAMAMLANDI** ✅ Bütün qalan sistemlər də əlavə olundu: 35 resurs + 10 SQL faylı + Discord botu + veb + brendinq.

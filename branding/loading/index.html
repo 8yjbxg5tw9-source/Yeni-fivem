@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>196RP — Yüklənir</title>
+    <style>
+        :root { --vr-blue: #0E4B6E; --vr-gold: #D9A441; --vr-dark: #14161a; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body {
+            background: radial-gradient(circle at center, #0a2f47 0%, var(--vr-dark) 70%);
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: #eef1f5;
+            overflow: hidden;
+        }
+        .logo { font-size: 80px; font-weight: 800; color: var(--vr-gold); letter-spacing: 6px; animation: fadeIn 1.5s ease; }
+        .state { font-size: 20px; letter-spacing: 4px; margin-top: 8px; opacity: 0.9; animation: fadeIn 2s ease; }
+        .motto { font-style: italic; color: var(--vr-gold); margin-top: 16px; opacity: 0.85; animation: fadeIn 2.5s ease; }
+        .bar-track {
+            width: 400px; max-width: 80vw; height: 6px; background: #2a2f36;
+            border-radius: 3px; margin-top: 48px; overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%; width: 0%; background: var(--vr-gold);
+            border-radius: 3px; transition: width 0.3s;
+        }
+        .tips { margin-top: 32px; font-size: 14px; opacity: 0.7; text-align: center; min-height: 20px; }
+        .footer { position: absolute; bottom: 24px; font-size: 12px; opacity: 0.5; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="logo">196RP</div>
+    <div class="state">VELMORA RESPUBLİKASI</div>
+    <div class="motto">Birlik, Əmək, Gələcək</div>
+
+    <div class="bar-track"><div class="bar-fill" id="bar"></div></div>
+    <div class="tips" id="tip">Şəhərə xoş gəlmisiniz…</div>
+
+    <div class="footer">Təcili xidmət: 196 · Valyuta: Solen (S₺) · Paytaxt: Asterra</div>
+
+    <script>
+        // Yükləmə progressi (FiveM LoadProgress handler)
+        const bar = document.getElementById('bar');
+        const tip = document.getElementById('tip');
+        const tips = [
+            'Şəhərə xoş gəlmisiniz…',
+            'İpucu: Radio üçün qulaqcıq (headset) lazımdır',
+            'İpucu: Şəhərdə OOC kanal yoxdur — hər şey IC',
+            'İpucu: Təcili xidmət 196-dır',
+            'İpucu: Peşələr bir-birinə bağlıdır',
+            'İpucu: NLR — ölümdən sonra yeni həyat',
+        ];
+
+        let tipIndex = 0;
+        setInterval(() => {
+            tipIndex = (tipIndex + 1) % tips.length;
+            tip.textContent = tips[tipIndex];
+        }, 4000);
+
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.progress !== undefined) {
+                bar.style.width = e.data.progress + '%';
+            }
+        });
+
+        // Nümayiş: avtomatik progress
+        let progress = 0;
+        const demo = setInterval(() => {
+            progress = Math.min(100, progress + Math.random() * 12);
+            bar.style.width = progress + '%';
+            if (progress >= 100) clearInterval(demo);
+        }, 300);
+    </script>
+</body>
+</html>
