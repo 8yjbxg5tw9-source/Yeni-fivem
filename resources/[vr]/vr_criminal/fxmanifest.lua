@@ -13,6 +13,7 @@ shared_scripts {
 }
 
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'server/gangs.lua',
     'server/heists.lua',
     'server/blackmarket.lua',

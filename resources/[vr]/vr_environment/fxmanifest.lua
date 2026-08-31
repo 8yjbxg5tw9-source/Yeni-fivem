@@ -13,6 +13,7 @@ shared_scripts {
 }
 
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'server/weather.lua',
     'server/farming.lua',
     'server/forestry.lua',

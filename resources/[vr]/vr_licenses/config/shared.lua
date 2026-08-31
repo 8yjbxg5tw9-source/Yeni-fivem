@@ -2,10 +2,9 @@
 -- vr_licenses — Konfiq
 -- ============================================================
 
-vr = vr or {}
-vr.Licenses = {}
+local config = {}
 
-vr.Licenses.Types = {
+config.Types = {
     { id = 'driver',       label = 'Sürücülük vəsiqəsi', maxPoints = 12 },
     { id = 'weapon',       label = 'Silah lisenziyası',  maxPoints = 0 },
     { id = 'hunting',      label = 'Ovçuluq lisenziyası', maxPoints = 0 },
@@ -15,4 +14,4 @@ vr.Licenses.Types = {
     { id = 'professional', label = 'Peşə lisenziyası',   maxPoints = 0 },
 }
 
-return vr
+return config

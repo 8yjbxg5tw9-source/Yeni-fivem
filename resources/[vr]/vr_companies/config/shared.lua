@@ -2,11 +2,10 @@
 -- vr_companies — Konfiq: şirkət növləri, peşə zəncirləri
 -- ============================================================
 
-vr = vr or {}
-vr.Companies = {}
+local config = {}
 
 -- Şirkət növləri
-vr.Companies.Types = {
+config.Types = {
     { id = 'restaurant', label = 'Restoran' },
     { id = 'dealership', label = 'Avtosalon' },
     { id = 'logistics', label = 'Servis/Logistika' },
@@ -22,10 +21,10 @@ vr.Companies.Types = {
 }
 
 -- Peşə zəncirləri (KİLİDLİ — bir peşə digərindən asılıdır)
-vr.Companies.SupplyChains = {
+config.SupplyChains = {
     restaurant = { needs = 'farm', item = 'ingredient' },          -- restoran fermersiz işləmir
     dealership = { needs = 'logistics', item = 'vehicle_part' },    -- avtosalon logistikasız premium satmır
     mechanic = { needs = 'logistics', item = 'premium_part' },      -- mexanik liman tədarükü olmadan tuning edə bilmir
 }
 
-return vr
+return config

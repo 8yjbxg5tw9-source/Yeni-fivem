@@ -2,11 +2,10 @@
 -- vr_phone — Konfiq: tətbiq siyahısı
 -- ============================================================
 
-vr = vr or {}
-vr.Phone = {}
+local config = {}
 
 -- Telefon tətbiqləri (hamısı azərbaycanca)
-vr.Phone.Apps = {
+config.Apps = {
     { id = 'phone',      label = 'Telefon',   icon = 'fa-phone' },
     { id = 'messages',   label = 'Mesajlar',  icon = 'fa-comment' },
     { id = 'contacts',   label = 'Kontaktlar', icon = 'fa-address-book' },
@@ -25,4 +24,4 @@ vr.Phone.Apps = {
     { id = 'guide',      label = 'Bələdçi',   icon = 'fa-compass' },      -- yeni oyunçular
 }
 
-return vr
+return config

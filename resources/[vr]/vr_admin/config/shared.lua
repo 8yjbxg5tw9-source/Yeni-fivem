@@ -2,11 +2,10 @@
 -- vr_admin — Konfiq: staff səviyyələri və səlahiyyət matrisi
 -- ============================================================
 
-vr = vr or {}
-vr.Admin = {}
+local config = {}
 
 -- Səviyyə nömrələri (yüksək = çox səlahiyyət)
-vr.Admin.Ranks = {
+config.Ranks = {
     helper = 1,
     moderator = 2,
     admin = 3,
@@ -16,7 +15,7 @@ vr.Admin.Ranks = {
 }
 
 -- Hər əməliyyat üçün minimum səviyyə
-vr.Admin.Permissions = {
+config.Permissions = {
     warn = 2,
     kick = 2,
     tempban = 3,
@@ -30,4 +29,4 @@ vr.Admin.Permissions = {
     restart = 4,
 }
 
-return vr
+return config

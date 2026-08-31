@@ -2,20 +2,19 @@
 -- vr_identity — Paylaşılan Konfiq
 -- ============================================================
 
-vr = vr or {}
-vr.Identity = {}
+local config = {}
 
 -- Plastik cərrahiyyə (görünüş dəyişmə) haqqı
-vr.Identity.PlasticSurgery = {
+config.PlasticSurgery = {
     cost = 15000,           -- S₺
     cooldownMinutes = 60,   -- iki əməliyyat arası min. müddət
 }
 
 -- Qan qrupları
-vr.Identity.BloodTypes = { 'O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-' }
+config.BloodTypes = { 'O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-' }
 
 -- Doğum bölgələri (VRN ilk 2 rəqəm kodu)
-vr.Identity.Birthplaces = {
+config.Birthplaces = {
     { code = '01', label = 'Asterra' },
     { code = '02', label = 'Novera' },
     { code = '03', label = 'Dornel' },
@@ -24,4 +23,4 @@ vr.Identity.Birthplaces = {
     { code = '06', label = 'Xaric' },
 }
 
-return vr
+return config

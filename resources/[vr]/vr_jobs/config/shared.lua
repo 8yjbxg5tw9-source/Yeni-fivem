@@ -2,11 +2,10 @@
 -- vr_jobs — Konfiq: başlanğıc və ixtisaslı işlər
 -- ============================================================
 
-vr = vr or {}
-vr.Jobs = {}
+local config = {}
 
 -- Başlanğıc işləri (hər kəsə açıq)
-vr.Jobs.Starter = {
+config.Starter = {
     { id = 'taxi', label = 'Taksi' },
     { id = 'bus', label = 'Avtobus' },
     { id = 'courier', label = 'Kuryer' },
@@ -23,7 +22,7 @@ vr.Jobs.Starter = {
 }
 
 -- İxtisaslı işlər (attestasiya/lisenziya tələb edir)
-vr.Jobs.Skilled = {
+config.Skilled = {
     { id = 'mechanic', label = 'Mexanik/Tuner', requires = 'professional' },
     { id = 'doctor', label = 'Tibb', requires = 'professional' },
     { id = 'lawyer', label = 'Vəkil', requires = 'professional' },
@@ -41,4 +40,4 @@ vr.Jobs.Skilled = {
     { id = 'race_org', label = 'Yarış təşkilatçısı', requires = 'professional' },
 }
 
-return vr
+return config

@@ -2,11 +2,10 @@
 -- vr_criminal — Konfiq: soyğun pilləsi, reputasiya
 -- ============================================================
 
-vr = vr or {}
-vr.Criminal = {}
+local config = {}
 
 -- Soyğun pilləsi (reputasiya xalı tələb olunur — mexaniki kilid)
-vr.Criminal.HeistTiers = {
+config.HeistTiers = {
     { id = 'market', label = 'Market', minRep = 0, rewardMin = 5000, rewardMax = 15000 },
     { id = 'house', label = 'Ev', minRep = 1, rewardMin = 10000, rewardMax = 30000 },
     { id = 'warehouse', label = 'Obyekt (anbar)', minRep = 2, rewardMin = 20000, rewardMax = 60000 },
@@ -19,10 +18,10 @@ vr.Criminal.HeistTiers = {
 }
 
 -- Minigame çətinlikləri
-vr.Criminal.Minigames = {
+config.Minigames = {
     lockpick = { type = 'skill', difficulty = 1 },
     hack = { type = 'hack', difficulty = 2 },
     thermite = { type = 'thermite', difficulty = 3 },
 }
 
-return vr
+return config

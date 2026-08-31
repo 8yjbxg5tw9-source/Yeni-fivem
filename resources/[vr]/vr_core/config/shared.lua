@@ -3,11 +3,10 @@
 -- 196RP — Velmora Respublikası
 -- ============================================================
 
-vr = vr or {}
-vr.Config = {}
+local config = {}
 
 -- === DÖVLƏT (Lore) ===
-vr.Config.State = {
+config.State = {
     name = 'Velmora Respublikası',
     capital = 'Asterra',
     currency = 'Solen',
@@ -17,7 +16,7 @@ vr.Config.State = {
 }
 
 -- === ŞƏHƏRLƏR / BÖLGƏLƏR ===
-vr.Config.Regions = {
+config.Regions = {
     { id = 'asterra', label = 'Asterra', plateLetter = 'A', regionCode = '01' },
     { id = 'novera',  label = 'Novera',  plateLetter = 'N', regionCode = '02' },
     { id = 'dornel',  label = 'Dornel',  plateLetter = 'D', regionCode = '03' },
@@ -26,7 +25,7 @@ vr.Config.Regions = {
 }
 
 -- === VƏTƏNDAŞLIQ SƏVİYYƏLƏRİ ===
-vr.Config.Citizenship = {
+config.Citizenship = {
     { level = 'temporary', label = 'Müvəqqəti Vətəndaş' },
     { level = 'citizen',   label = 'Vətəndaş' },
     { level = 'trusted',   label = 'Etibarlı' },
@@ -34,29 +33,29 @@ vr.Config.Citizenship = {
 }
 
 -- === LİSENZİYALAR ===
-vr.Config.Licenses = {
+config.Licenses = {
     'driver', 'weapon', 'hunting', 'fishing', 'business', 'pilot', 'professional',
 }
 
 -- === BAYRAM TƏQVİMİ (milli təqvim) ===
-vr.Config.Holidays = {
+config.Holidays = {
     { day = 14, month = 3,  label = 'Birlik Günü' },
     { day = 3,  month = 5,  label = 'Respublika Günü' },
 }
 
 -- === MƏHDUDİYYƏTLƏR ===
-vr.Config.Limits = {
+config.Limits = {
     maxCharacters = 3,        -- maksimum aktiv personaj
     maxTransfer = 1000000,    -- tək köçürmə limiti (S₺)
     trialDays = 14,           -- müvəqqəti vətəndaşlıq sınaq müddəti
 }
 
 -- === İQTİSADİYYAT ===
-vr.Config.Economy = {
+config.Economy = {
     bankInterestRate = 0.05,      -- əmanət faizi (5%)
     incomeTaxRate = 0.10,         -- gəlir vergisi (10%)
     salesTaxRate = 0.05,          -- satış vergisi (5%)
     propertyTaxRate = 0.02,       -- əmlak vergisi (2%)
 }
 
-return vr
+return config

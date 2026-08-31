@@ -2,11 +2,10 @@
 -- vr_items — Konfiq: metadata sahələri
 -- ============================================================
 
-vr = vr or {}
-vr.Items = {}
+local config = {}
 
 -- Hər əşyaya tətbiq olunan metadata sahələri
-vr.Items.MetadataFields = {
+config.MetadataFields = {
     quality = { type = 'number', min = 0, max = 100, default = 100 },   -- keyfiyyət %
     serial = { type = 'string', default = '' },                          -- seriya №
     owner = { type = 'string', default = '' },                           -- kimə məxsusdur
@@ -14,4 +13,4 @@ vr.Items.MetadataFields = {
     producedAt = { type = 'number', default = 0 },                       -- istehsal zamanı (unix)
 }
 
-return vr
+return config

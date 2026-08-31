@@ -2,11 +2,10 @@
 -- vr_government — Konfiq: qurumlar
 -- ============================================================
 
-vr = vr or {}
-vr.Government = {}
+local config = {}
 
 -- Dövlət qurumları
-vr.Government.Agencies = {
+config.Agencies = {
     { id = 'municipality', label = 'Bələdiyyə' },
     { id = 'tax_customs', label = 'Vergi-Gömrük' },
     { id = 'transport', label = 'Nəqliyyat Agentliyi' },
@@ -18,4 +17,4 @@ vr.Government.Agencies = {
     { id = 'election', label = 'Seçki Komissiyası' },
 }
 
-return vr
+return config

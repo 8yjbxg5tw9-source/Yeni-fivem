@@ -13,6 +13,7 @@ shared_scripts {
 }
 
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'server/tax.lua',
     'server/election.lua',
     'server/notary.lua',

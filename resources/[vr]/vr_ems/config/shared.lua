@@ -2,11 +2,10 @@
 -- vr_ems — Konfiq: yara növləri, prosedurlar
 -- ============================================================
 
-vr = vr or {}
-vr.EMS = {}
+local config = {}
 
 -- Yara növləri və müalicə prosedurları
-vr.EMS.Injuries = {
+config.Injuries = {
     gunshot = { label = 'Güllə yarası', severity = 4, bleeding = true, procedure = 'Cərrahi müdaxilə' },
     cut = { label = 'Kəsik', severity = 2, bleeding = true, procedure = 'Tikiş' },
     burn = { label = 'Yanıq', severity = 3, bleeding = false, procedure = 'Yanıq sarğısı' },
@@ -14,13 +13,13 @@ vr.EMS.Injuries = {
 }
 
 -- Qan itkisi timeri (saniyə)
-vr.EMS.BleedInterval = 30
+config.BleedInterval = 30
 
 -- Reanimasiya pəncərəsi (saniyə)
-vr.EMS.ReviveWindow = 300 -- 5 dəqiqə
+config.ReviveWindow = 300 -- 5 dəqiqə
 
 -- Qan qrupları uyğunluğu (donor -> alıcı)
-vr.EMS.BloodCompatibility = {
+config.BloodCompatibility = {
     ['O-'] = { 'O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+' },
     ['O+'] = { 'O+', 'A+', 'B+', 'AB+' },
     ['A-'] = { 'A-', 'A+', 'AB-', 'AB+' },
@@ -31,4 +30,4 @@ vr.EMS.BloodCompatibility = {
     ['AB+'] = { 'AB+' },
 }
 
-return vr
+return config

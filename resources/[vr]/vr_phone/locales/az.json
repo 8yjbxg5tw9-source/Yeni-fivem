@@ -1,0 +1,13 @@
+{
+  "locale": "az",
+  "app_name": "196RP Telefon",
+  "apps": {
+    "phone": "Telefon",
+    "messages": "SMS",
+    "contacts": "Əlaqələr",
+    "bank": "Bank",
+    "news": "Xəbərlər",
+    "weather": "Hava",
+    "settings": "Tənzimləmələr"
+  }
+}

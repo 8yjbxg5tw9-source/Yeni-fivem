@@ -2,11 +2,10 @@
 -- vr_property — Konfiq: əmlak pillələri
 -- ============================================================
 
-vr = vr or {}
-vr.Property = {}
+local config = {}
 
 -- Yaşayış pillələri
-vr.Property.Tiers = {
+config.Tiers = {
     { id = 'motel', label = 'Motel otağı', minPrice = 5000 },
     { id = 'apartment', label = 'Mənzil', minPrice = 50000 },
     { id = 'house', label = 'Ev', minPrice = 200000 },
@@ -14,6 +13,6 @@ vr.Property.Tiers = {
 }
 
 -- Kommunal növləri
-vr.Property.Utilities = { 'electricity', 'water', 'gas' }
+config.Utilities = { 'electricity', 'water', 'gas' }
 
-return vr
+return config

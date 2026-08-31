@@ -2,10 +2,9 @@
 -- vr_status — Konfiq
 -- ============================================================
 
-vr = vr or {}
-vr.Status = {}
+local config = {}
 
-vr.Status.Defaults = {
+config.Defaults = {
     hunger = 100,    -- aclıq
     thirst = 100,    -- susuzluq
     stress = 0,      -- stress
@@ -13,7 +12,7 @@ vr.Status.Defaults = {
 }
 
 -- Azalma sürətləri (dəqiqədə xal)
-vr.Status.DrainPerMinute = {
+config.DrainPerMinute = {
     hunger = 0.3,
     thirst = 0.4,
     stress = 0.1,
@@ -21,11 +20,11 @@ vr.Status.DrainPerMinute = {
 }
 
 -- Kritik həddlər (vizual siqnallar üçün)
-vr.Status.Critical = {
+config.Critical = {
     hunger = 20,
     thirst = 20,
     stress = 80,
     fatigue = 80,
 }
 
-return vr
+return config

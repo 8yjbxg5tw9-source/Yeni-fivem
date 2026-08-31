@@ -3,6 +3,7 @@
 -- Bütün admin əməliyyatları DB-yə və Discord webhook-a yazılır.
 -- ============================================================
 
+local config = lib.require('config.shared')
 local webhook = GetConvar('discord_webhook', '')
 
 -- === Staff səviyyəsini oxu ===
@@ -12,7 +13,7 @@ local function getRank(source)
     local row = MySQL.single.await('SELECT rank FROM vr_staff WHERE citizenid = ?',
         { player.PlayerData.citizenid })
     if not row then return 0 end
-    return (vr.Admin.Ranks[row.rank] or 0)
+    return (config.Ranks[row.rank] or 0)
 end
 
 exports('getRank', getRank)
@@ -20,7 +21,7 @@ exports('getRank', getRank)
 -- === İcazə yoxlaması ===
 local function hasPermission(source, action)
     local rank = getRank(source)
-    local required = vr.Admin.Permissions[action] or 6
+    local required = config.Permissions[action] or 6
     return rank >= required
 end
 

@@ -13,6 +13,7 @@ shared_scripts {
 }
 
 server_scripts {
+    '@oxmysql/lib/MySQL.lua',
     'server/budget.lua',
     'server/stockmarket.lua',
     'server/prices.lua',

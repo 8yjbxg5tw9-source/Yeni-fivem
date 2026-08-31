@@ -2,11 +2,10 @@
 -- vr_police — Konfiq: bölmələr, cərimələr, sübut keyfiyyəti
 -- ============================================================
 
-vr = vr or {}
-vr.Police = {}
+local config = {}
 
 -- Polis bölmələri
-vr.Police.Departments = {
+config.Departments = {
     { id = 'city',      label = 'Şəhər Polisi' },
     { id = 'patrol',    label = 'Yol Patrul' },
     { id = 'investigation', label = 'Araşdırmalar Bürosu' },
@@ -17,7 +16,7 @@ vr.Police.Departments = {
 }
 
 -- Sürücülük cərimələri (S₺)
-vr.Police.Fines = {
+config.Fines = {
     speeding = 1500,
     redlight = 2000,
     illegal_parking = 1000,
@@ -27,6 +26,6 @@ vr.Police.Fines = {
 }
 
 -- Sübut keyfiyyəti zamanla necə düşür (%/gün)
-vr.Police.EvidenceDecay = 5.0 -- hər gün 5% keyfiyyət itkisi
+config.EvidenceDecay = 5.0 -- hər gün 5% keyfiyyət itkisi
 
-return vr
+return config

@@ -2,15 +2,14 @@
 -- vr_pets — Konfiq
 -- ============================================================
 
-vr = vr or {}
-vr.Pets = {}
+local config = {}
 
-vr.Pets.Species = { 'dog', 'cat' }
+config.Species = { 'dog', 'cat' }
 
 -- Aclıq/sağlamlıq azalma sürəti (saatda)
-vr.Pets.DecayPerHour = 3
+config.DecayPerHour = 3
 
 -- Baytar klinikası müalicə haqqı
-vr.Pets.VetCost = 2000
+config.VetCost = 2000
 
-return vr
+return config

@@ -2,17 +2,16 @@
 -- vr_media — Konfiq
 -- ============================================================
 
-vr = vr or {}
-vr.Media = {}
+local config = {}
 
 -- TV kanalları
-vr.Media.TVChannels = {
+config.TVChannels = {
     { id = 'vrn1', label = 'VRN 1 (Dövlət)' },
     { id = 'news24', label = 'Xəbər 24' },
     { id = 'sports', label = 'İdman TV' },
 }
 
 -- Reklam lövhələri icarə qiyməti (S₺/gün)
-vr.Media.BillboardRate = 500
+config.BillboardRate = 500
 
-return vr
+return config

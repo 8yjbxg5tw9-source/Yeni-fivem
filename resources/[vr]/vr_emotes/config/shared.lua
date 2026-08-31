@@ -2,11 +2,10 @@
 -- vr_emotes — Konfiq: emote siyahısı (azərbaycanca etiketlər)
 -- ============================================================
 
-vr = vr or {}
-vr.Emotes = {}
+local config = {}
 
 -- Emote siyahısı (dict, anim, ad)
-vr.Emotes.List = {
+config.List = {
     { label = 'Salamlaşma', dict = 'gestures@m@standing@casual', anim = 'gesture_hello' },
     { label = 'Əl sıxma', dict = 'mp_common', anim = 'givetake1_a' },
     { label = 'Oturma', dict = 'anim@amb@business@bgen@bgen_no_work', anim = 'sit_phone_phoneputdown_idle_nowork' },
@@ -17,4 +16,4 @@ vr.Emotes.List = {
     { label = 'Ağlama', dict = 'anim@mp_player_intcelebrationfemale@air_shagging', anim = 'air_shagging' },
 }
 
-return vr
+return config

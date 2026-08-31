@@ -2,11 +2,10 @@
 -- vr_crafting — Konfiq: reseptlər və resayklinq
 -- ============================================================
 
-vr = vr or {}
-vr.Crafting = {}
+local config = {}
 
 -- Qanuni crafting reseptləri
-vr.Crafting.Recipes = {
+config.Recipes = {
     -- Qida (aşpaz)
     { name = 'çörək', category = 'food', result = 'bread', amount = 1, ingredients = { { item = 'flour', amount = 2 }, { item = 'water', amount = 1 } }, job = 'chef', time = 5 },
     { name = 'yemək boşqabı', category = 'food', result = 'meal', amount = 1, ingredients = { { item = 'ingredient', amount = 3 }, { item = 'spice', amount = 1 } }, job = 'chef', time = 8 },
@@ -22,7 +21,7 @@ vr.Crafting.Recipes = {
 }
 
 -- Resayklinq xəritəsi (zibil → məmulat)
-vr.Crafting.Recycling = {
+config.Recycling = {
     { input = 'scrap_metal', output = 'metal', ratio = 2 },   -- 2 zibil = 1 metal
     { input = 'old_cloth', output = 'cloth', ratio = 2 },
     { input = 'broken_wood', output = 'wood', ratio = 2 },
@@ -30,4 +29,4 @@ vr.Crafting.Recycling = {
     { input = 'glass_waste', output = 'glass', ratio = 3 },
 }
 
-return vr
+return config
