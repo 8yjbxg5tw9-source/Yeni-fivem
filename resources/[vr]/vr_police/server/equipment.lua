@@ -37,25 +37,19 @@ lib.callback.register('vr:police:drugTest', function(source, targetId)
     return { positive = positive, count = #positive }
 end)
 
--- === Avtomobil skaneri (VIN oxu) ===
-lib.callback.register('vr:police:scanVehicle', function(source, targetVehicle)
+-- === Polis icazə yoxlaması (client alətləri üçün) ===
+lib.callback.register('vr:police:isPolice', function(source)
+    return isPolice(source)
+end)
+
+-- === Avtomobil skaneri (VIN oxu) — client plate göndərir ===
+lib.callback.register('vr:police:scanVehicle', function(source, plate)
     if not isPolice(source) then return nil end
-    local plate = GetVehicleNumberPlateText(targetVehicle)
     local vehicle = MySQL.single.await('SELECT * FROM vr_vehicle_records WHERE plate = ?', { plate })
     return vehicle
 end)
 
--- === Radar (sürət ölçmə) ===
-lib.callback.register('vr:police:radar', function(source, targetId)
-    if not isPolice(source) then return nil end
-    local target = qbx.getPlayer(targetId)
-    if not target then return nil end
-    local targetPed = GetPlayerPed(targetId)
-    local vehicle = GetVehiclePedIsIn(targetPed, false)
-    if vehicle == 0 then return nil end
-    local speed = GetEntitySpeed(vehicle) * 3.6 -- km/h
-    return { speed = math.floor(speed), vehicle = vehicle }
-end)
+-- === Radar (sürət ölçmə) — ölçü CLIENT tərəfdə edilir (vr_police/client/equipment.lua) ===
 
 -- === Impound (əksikdaş) ===
 lib.callback.register('vr:police:impound', function(source, plate, reason)
@@ -66,13 +60,11 @@ lib.callback.register('vr:police:impound', function(source, plate, reason)
     return true
 end)
 
--- === Panik düyməsi (dispatcher-ə bildiriş) ===
-RegisterNetEvent('vr:police:panic', function()
+-- === Panik düyməsi (dispatcher-ə bildiriş) — koordinatlar client-dən gəlir ===
+RegisterNetEvent('vr:police:panic', function(coords)
     local src = source
     if not isPolice(src) then return end
     local player = qbx.getPlayer(src)
-    local ped = GetPlayerPed(src)
-    local coords = GetEntityCoords(ped)
     -- Bütün polislərə bildiriş
     TriggerClientEvent('vr:police:panicAlert', -1, {
         officer = player.PlayerData.citizenid,

@@ -30,9 +30,16 @@ end)
 
 -- === Durability-ni azalt (istifadə zamanı) ===
 exports('decreaseDurability', function(source, itemName, slot, amount)
-    local item = exports.ox_inventory:GetItem(source, itemName, metadata or {}, slot)
-    -- ox_inventory metadata güncəllənməsi üçün yer (istehsalda tamamlanır)
-    return true
+    amount = amount or 10
+    local item = exports.ox_inventory:GetItem(source, itemName, nil, true)
+    if not item then return false end
+    local metadata = item.metadata or {}
+    local durability = math.max(0, (metadata.durability or 100) - amount)
+    metadata.durability = durability
+    if item.slot then
+        exports.ox_inventory:SetMetadata(source, item.slot, metadata)
+    end
+    return durability > 0
 end)
 
 -- === Oğurluq əşyasını "hot item" kimi qeyd et ===

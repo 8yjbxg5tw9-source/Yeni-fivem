@@ -16,7 +16,7 @@ lib.addCommand('warn', {
         return lib.notify(source, { title = 'İcazə', description = 'Bu əməliyyat üçün icazəniz yoxdur.', type = 'error' })
     end
     local target = args.id
-    local reason = table.concat(args, ' ', 2)
+    local reason = args.reason or 'Səbəb göstərilməyib'
     exports.vr_admin:audit('warn', source, target, reason)
     -- İntizam arxivinə yaz
     local tPlayer = qbx.getPlayer(target)
@@ -37,7 +37,7 @@ lib.addCommand('kick', {
     restricted = 'admin',
 }, function(source, args)
     if not exports.vr_admin:hasPermission(source, 'kick') then return end
-    local reason = table.concat(args, ' ', 2)
+    local reason = args.reason or 'Səbəb göstərilməyib'
     exports.vr_admin:audit('kick', source, args.id, reason)
     DropPlayer(args.id, reason)
 end)
@@ -76,9 +76,8 @@ lib.addCommand('tp', {
 }, function(source, args)
     if not exports.vr_admin:hasPermission(source, 'teleport') then return end
     exports.vr_admin:audit('teleport', source, args.id, nil)
-    local target = GetPlayerPed(args.id)
-    local coords = GetEntityCoords(target)
-    SetEntityCoords(GetPlayerPed(source), coords.x, coords.y, coords.z)
+    -- Teleport client tərəfdə icra olunur (GetPlayerPed yalnız client-də işləyir)
+    TriggerClientEvent('vr:admin:teleportTo', source, args.id)
 end)
 
 -- === GIVE MONEY (xüsusi icazə + audit) ===

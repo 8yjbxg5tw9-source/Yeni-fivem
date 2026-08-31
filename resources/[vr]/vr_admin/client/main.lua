@@ -5,6 +5,13 @@
 local spectating = false
 local noclipping = false
 
+-- Teleport (admin /tp komandası — server tərəfdən çağırılır)
+RegisterNetEvent('vr:admin:teleportTo', function(targetId)
+    local targetPed = GetPlayerPed(GetPlayerFromServerId(targetId))
+    local coords = GetEntityCoords(targetPed)
+    SetEntityCoords(PlayerPedId(), coords.x, coords.y, coords.z, false, false, false, false)
+end)
+
 -- Spectate (müşahidə)
 RegisterNetEvent('vr:admin:spectate', function(targetId)
     local targetPed = GetPlayerPed(GetPlayerFromServerId(targetId))

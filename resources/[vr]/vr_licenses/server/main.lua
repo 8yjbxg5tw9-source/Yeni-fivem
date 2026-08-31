@@ -8,7 +8,7 @@ local function getCharId(source)
     local player = qbx.getPlayer(source)
     if not player then return nil end
     local row = MySQL.single.await('SELECT id FROM vr_characters WHERE citizenid = ? AND charid = ?',
-        { player.PlayerData.citizenid, player.PlayerData.charid })
+        { player.PlayerData.citizenid, player.PlayerData.cid })
     return row and row.id
 end
 

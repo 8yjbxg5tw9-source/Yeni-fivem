@@ -23,7 +23,7 @@ exports('generateVRN', generateVRN)
 AddEventHandler('qbx_core:server:characterLoaded', function(player)
     local src = player.PlayerData.source
     local citizenid = player.PlayerData.citizenid
-    local charid = player.PlayerData.charid
+    local charid = player.PlayerData.cid
     local exists = MySQL.scalar.await(
         'SELECT id FROM vr_characters WHERE citizenid = ? AND charid = ?',
         { citizenid, charid }
@@ -80,7 +80,7 @@ exports('getCharBySource', function(source)
     if not player then return nil end
     return MySQL.single.await(
         'SELECT * FROM vr_characters WHERE citizenid = ? AND charid = ?',
-        { player.PlayerData.citizenid, player.PlayerData.charid }
+        { player.PlayerData.citizenid, player.PlayerData.cid }
     )
 end)
 

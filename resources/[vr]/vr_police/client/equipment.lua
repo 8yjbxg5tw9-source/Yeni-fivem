@@ -21,14 +21,21 @@ exports('useDrugTest', function(targetId)
     lib.notify({ title = 'Narkotest', description = desc, type = result.count > 0 and 'error' or 'success' })
 end)
 
--- === Radar UI ===
+-- === Radar UI — sürət ölçmə client tərəfdə (GetPlayerPed yalnız client-də işləyir) ===
 exports('useRadar', function(targetId)
-    local result = lib.callback.await('vr:police:radar', false, targetId)
-    if not result then
+    local allowed = lib.callback.await('vr:police:isPolice', false)
+    if not allowed then
+        lib.notify({ title = 'Radar', description = 'Bu alət üçün icazəniz yoxdur', type = 'error' })
+        return
+    end
+    local targetPed = GetPlayerPed(GetPlayerFromServerId(targetId))
+    local vehicle = GetVehiclePedIsIn(targetPed, false)
+    if vehicle == 0 then
         lib.notify({ title = 'Radar', description = 'Hədəf nəqliyyatda deyil', type = 'error' })
         return
     end
-    lib.notify({ title = 'Radar', description = ('Sürət: %d km/h'):format(result.speed), type = 'inform' })
+    local speed = GetEntitySpeed(vehicle) * 3.6 -- km/h
+    lib.notify({ title = 'Radar', description = ('Sürət: %d km/h'):format(math.floor(speed)), type = 'inform' })
 end)
 
 -- === MDT açılışı (sadə input UI) ===

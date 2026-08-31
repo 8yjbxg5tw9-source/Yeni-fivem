@@ -8,7 +8,8 @@ lib.addKeybind({
     description = 'Panik düyməsi (polis)',
     defaultKey = 'F6',
     onPressed = function()
-        TriggerServerEvent('vr:police:panic')
+        local coords = GetEntityCoords(PlayerPedId())
+        TriggerServerEvent('vr:police:panic', coords)
     end,
 })
 
