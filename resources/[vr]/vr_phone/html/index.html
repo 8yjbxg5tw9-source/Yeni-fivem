@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>196RP — Telefon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="phone" class="phone hidden">
+        <div class="status-bar">
+            <span id="clock">00:00</span>
+            <span id="network">Velkom 5G</span>
+            <span id="battery"><i class="fa-solid fa-battery-full"></i></span>
+        </div>
+
+        <!-- Ana ekran -->
+        <div id="home" class="screen">
+            <div class="app-grid" id="appGrid"></div>
+        </div>
+
+        <!-- Tətbiq ekranları -->
+        <div id="messages-screen" class="screen hidden">
+            <div class="app-header"><button class="back" data-screen="home"><i class="fa-solid fa-arrow-left"></i></button><h2>Mesajlar</h2></div>
+            <div id="messagesList" class="list"></div>
+            <div class="composer">
+                <input id="msgTo" placeholder="Nömrə">
+                <textarea id="msgBody" placeholder="Mesajınız…"></textarea>
+                <button id="sendMsgBtn" class="btn-primary">Göndər</button>
+            </div>
+        </div>
+
+        <div id="contacts-screen" class="screen hidden">
+            <div class="app-header"><button class="back" data-screen="home"><i class="fa-solid fa-arrow-left"></i></button><h2>Kontaktlar</h2></div>
+            <div id="contactsList" class="list"></div>
+            <div class="composer">
+                <input id="contactName" placeholder="Ad">
+                <input id="contactNumber" placeholder="Nömrə">
+                <button id="addContactBtn" class="btn-primary">Əlavə et</button>
+            </div>
+        </div>
+
+        <div id="kvatter-screen" class="screen hidden">
+            <div class="app-header"><button class="back" data-screen="home"><i class="fa-solid fa-arrow-left"></i></button><h2>Kvatter</h2></div>
+            <div class="composer">
+                <textarea id="kvatterBody" placeholder="Nə baş verir? (280 simvol)"></textarea>
+                <button id="postKvatterBtn" class="btn-primary">Paylaş</button>
+            </div>
+            <div id="kvatterFeed" class="list"></div>
+        </div>
+
+        <div id="news-screen" class="screen hidden">
+            <div class="app-header"><button class="back" data-screen="home"><i class="fa-solid fa-arrow-left"></i></button><h2>Xəbərlər</h2></div>
+            <div id="newsList" class="list"></div>
+        </div>
+
+        <div id="bank-screen" class="screen hidden">
+            <div class="app-header"><button class="back" data-screen="home"><i class="fa-solid fa-arrow-left"></i></button><h2>Bank</h2></div>
+            <div class="balance-card">
+                <p>Balans</p>
+                <h1 id="bankBalance">S₺ 0</h1>
+            </div>
+        </div>
+
+        <div id="guide-screen" class="screen hidden">
+            <div class="app-header"><button class="back" data-screen="home"><i class="fa-solid fa-arrow-left"></i></button><h2>Bələdçi</h2></div>
+            <div class="guide-content">
+                <h3>Velmora Respublikasına xoş gəlmisiniz!</h3>
+                <ul>
+                    <li>Təcili xidmət: <b>196</b></li>
+                    <li>Valyuta: <b>Solen (S₺)</b></li>
+                    <li>İlk işiniz: Taksi, kuryer və ya fermer olun</li>
+                    <li>Qaydaları oxuyun və mentorunuza müraciət edin</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

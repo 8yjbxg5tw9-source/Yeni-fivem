@@ -1,0 +1,25 @@
+# ============================================================
+# 196RP — .gitignore
+# Gizli açarlar və müvəqqəti fayllar heç vaxt Git-ə getmir.
+# ============================================================
+
+# Gizli konfiq (açarlar, mysql şifrəsi, webhook)
+server.cfg.local
+secrets.env
+*.key
+
+# Xam MySQL dump-ları (müvəqqəti)
+*.sql.bak
+backups/
+
+# Loglar
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / alət
+node_modules/
+.venv/
