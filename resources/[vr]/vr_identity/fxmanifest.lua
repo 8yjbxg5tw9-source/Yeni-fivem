@@ -23,9 +23,4 @@ client_scripts {
 
 dependencies {
     'vr_core',
-    'qbx_skin',
-}
-
-provides {
-    'vr_identity',
 }
