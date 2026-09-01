@@ -81,17 +81,23 @@ lib.callback.register('vr:court:getTranscript', function(source, caseId)
 end)
 
 -- === Vəkillik kollegiya imtahanı (lisenziya) ===
+-- Düzgün cavab açarı YALNIZ serverdə saxlanılır (client uydura bilməz).
+local BAR_EXAM_KEY = { 'a', 'b', 'c', 'a', 'b', 'c', 'a', 'b', 'c', 'a' }
+local BAR_EXAM_PASS_RATE = 0.7
+
 lib.callback.register('vr:court:barExam', function(source, answers)
     local player = qbx.getPlayer(source)
     if not player then return false end
-    -- Sadə qiymətləndirmə: cavabların ən azı 70%-i düzgün olmalıdır
-    -- (real suallar ayrıca konfiqdə; burada nümunə)
-    local correct = 0
-    local total = #(answers or {})
-    for _, a in ipairs(answers or {}) do
-        if a == true then correct = correct + 1 end
+    if type(answers) ~= 'table' or #answers ~= #BAR_EXAM_KEY then
+        return false, 'Cavablar natamamdır'
     end
-    if total > 0 and (correct / total) >= 0.7 then
+
+    local correct = 0
+    for i = 1, #BAR_EXAM_KEY do
+        if tostring(answers[i]) == BAR_EXAM_KEY[i] then correct = correct + 1 end
+    end
+
+    if (correct / #BAR_EXAM_KEY) >= BAR_EXAM_PASS_RATE then
         -- Vəkil lisenziyası ver
         exports.vr_licenses:giveLicense(source, 'professional', nil)
         return true, 'Vəkillik imtahanından keçdiniz'
