@@ -55,8 +55,11 @@ lib.callback.register('vr:environment:illegalMining', function(source, mineralId
     -- Yüksək aşkarlanma riski
     local caught = math.random(1, 100) <= 40
     if caught then
-        MySQL.insert.await('INSERT INTO vr_fines (char_id, reason, amount) VALUES (?, ?, ?)',
-            { (exports.vr_identity:getCharBySource(source)).id, 'Qaçaq hasilat', 20000 })
+        local char = exports.vr_identity:getCharBySource(source)
+        if char then
+            MySQL.insert.await('INSERT INTO vr_fines (char_id, reason, amount) VALUES (?, ?, ?)',
+                { char.id, 'Qaçaq hasilat', 20000 })
+        end
         return false, 'Qaçaq hasilat aşkarlandı — cərimə!'
     end
 

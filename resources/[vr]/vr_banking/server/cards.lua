@@ -33,7 +33,7 @@ lib.callback.register('vr:banking:cardPayment', function(source, cardNo, pin, am
     if card.pin ~= ('PIN:' .. pin) then return false, 'Yanlış PIN' end
 
     -- Kart dublikatı fırıldağı aşkarlanması
-    if card.duplicate_flag then
+    if card.duplicate_flag == 1 then
         return false, 'Şübhəli kart — fırıldaq araşdırması başladıldı'
     end
 

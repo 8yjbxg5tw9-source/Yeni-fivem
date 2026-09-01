@@ -15,10 +15,16 @@ lib.callback.register('vr:criminal:launderMoney', function(source, companyId, am
         return false, 'Yalnız şirkət sahibi pul yuya bilər'
     end
 
+    -- Balans yoxlaması (client-in uydurduğu məbləği istifadə edə bilməz)
+    local cash = player.PlayerData.money.cash or 0
+    if cash < amount then return false, 'Kifayət qədər nağd pul yoxdur' end
+
     -- Pul yuma haqqı (%20 komissiya)
     local commission = math.floor(amount * 0.20)
     local cleaned = amount - commission
 
+    -- Əvvəlcə nağd pul çıxarılır, sonra təmizlənmiş məbləğ banka keçir
+    player.Functions.RemoveMoney('cash', amount, 'pul-yuma')
     player.Functions.AddMoney('bank', cleaned, 'pul-yuma')
     MySQL.insert.await('INSERT INTO vr_company_registry (company_id, entry_type, details) VALUES (?, ?, ?)',
         { companyId, 'audit', ('Pul yuma əməliyyatı: %d S₺'):format(amount) })

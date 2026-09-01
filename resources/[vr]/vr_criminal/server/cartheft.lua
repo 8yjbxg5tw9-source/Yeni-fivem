@@ -32,16 +32,18 @@ lib.callback.register('vr:criminal:chopVehicle', function(source, vin)
     return true
 end)
 
--- === Boosting (sifarişli oğurluq) ===
-lib.callback.register('vr:criminal:boostVehicle', function(source, vin, reward)
+-- === Boosting (sifarişli oğurluq) — reward SERVER tərəfdə müəyyən olunur ===
+lib.callback.register('vr:criminal:boostVehicle', function(source, vin)
     local player = qbx.getPlayer(source)
     if not player then return false end
 
     MySQL.insert.await('INSERT INTO vr_cartheft (citizenid, vin, action) VALUES (?, ?, ?)',
         { player.PlayerData.citizenid, vin, 'boost' })
 
-    player.Functions.AddMoney('cash', reward or 5000, 'boosting')
-    return true
+    -- Mükafat client-dən GƏLMİR — server random təyin edir (təhlükəsizlik)
+    local reward = math.random(3000, 8000)
+    player.Functions.AddMoney('cash', reward, 'boosting')
+    return true, reward
 end)
 
 -- === VIN dəyişdirmə (qanunsuz) ===

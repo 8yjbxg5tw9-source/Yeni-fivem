@@ -28,27 +28,32 @@ end)
 -- === Restart planlaşdır ===
 lib.callback.register('vr:admin:scheduleRestart', function(source, minutes, reason)
     if not exports.vr_admin:hasPermission(source, 'restart') then return false end
+    minutes = math.floor(tonumber(minutes) or 0)
+    if minutes <= 0 then return false end
     local scheduledAt = os.date('%Y-%m-%d %H:%M:%S', os.time() + (minutes * 60))
     MySQL.insert.await('INSERT INTO vr_restart_schedule (scheduled_at, reason) VALUES (?, ?)', { scheduledAt, reason })
     exports.vr_admin:audit('restart_scheduled', source, minutes, reason)
 
-    -- Geri sayım + restart
-    local remaining = minutes * 60
-    while remaining > 0 do
-        Wait(1000)
-        remaining = remaining - 1
-        if remaining == 300 then TriggerClientEvent('chat:addMessage', -1, { args = { 'SERVER', 'Server 5 dəqiqəyə restart olacaq!' } })
-        elseif remaining == 60 then TriggerClientEvent('chat:addMessage', -1, { args = { 'SERVER', 'Server 1 dəqiqəyə restart olacaq!' } })
-        elseif remaining == 0 then
-            TriggerEvent('txAdmin:events:scheduledRestart', { reason = reason or 'Planlı restart' })
+    -- Geri sayım ayrı thread-də (callback-i bloklamasın)
+    CreateThread(function()
+        local remaining = minutes * 60
+        while remaining > 0 do
+            Wait(1000)
+            remaining = remaining - 1
+            if remaining == 300 then
+                TriggerClientEvent('chat:addMessage', -1, { args = { 'SERVER', 'Server 5 dəqiqəyə restart olacaq!' } })
+            elseif remaining == 60 then
+                TriggerClientEvent('chat:addMessage', -1, { args = { 'SERVER', 'Server 1 dəqiqəyə restart olacaq!' } })
+            end
         end
-    end
+        TriggerEvent('txAdmin:events:scheduledRestart', { reason = reason or 'Planlı restart' })
+    end)
     return true
 end)
 
 -- === Resurs monitorinqi (resmon məlumatı) ===
 lib.callback.register('vr:admin:getResourceUsage', function(source)
-    if not exports.vr_admin:hasPermission(source, 'give_money') then return {} end
+    if not exports.vr_admin:hasPermission(source, 'restart') then return {} end
     -- Real resmon məlumatı txAdmin/GetResourceMetrics ilə alınır
     -- Burada struktur nümunəsi qaytarılır
     return {
