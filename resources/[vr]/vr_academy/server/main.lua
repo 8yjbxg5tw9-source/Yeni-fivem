@@ -37,6 +37,12 @@ lib.callback.register('vr:academy:complete', function(source, courseId)
     end
     if not course then return false end
 
+    -- Yalnız kursa yazılmış oyunçu tamamlaya bilər (pulsuz lisenziya istismarının qarşısı)
+    local enrollment = MySQL.single.await('SELECT * FROM vr_academy WHERE citizenid = ? AND course = ?',
+        { player.PlayerData.citizenid, courseId })
+    if not enrollment then return false, 'Bu kursa yazılmamısınız' end
+    if enrollment.completed == 1 then return false, 'Kurs artıq tamamlanıb' end
+
     MySQL.update.await('UPDATE vr_academy SET completed = 1 WHERE citizenid = ? AND course = ?',
         { player.PlayerData.citizenid, courseId })
 
