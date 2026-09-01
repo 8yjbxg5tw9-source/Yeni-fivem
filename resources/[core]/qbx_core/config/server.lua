@@ -132,6 +132,13 @@ return {
     sendPaycheck = function (player, payment)
         -- Bank balansı vr_accounts cədvəlində saxlanır (vr_banking); qbx money.bank ilə
         -- uyğunsuzluğun qarşısını almaq üçün maaş birbaşa bank hesabına yazılır.
+        if GetResourceState('vr_banking') ~= 'started' then
+            -- vr_banking hələ yüklənməyibsə, klassik qbx money.bank-a yaz (fallback)
+            player.Functions.AddMoney('bank', payment)
+            Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
+            TriggerEvent('qbx_core:server:onPaycheck', player.PlayerData.source, payment)
+            return
+        end
         local ok = exports.vr_banking:addBankMoney(player.PlayerData.citizenid, payment, 'maaş')
         if ok then
             Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
