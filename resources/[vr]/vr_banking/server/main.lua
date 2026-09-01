@@ -30,6 +30,30 @@ exports('getBalance', function(citizenid)
     return account and account.balance or 0
 end)
 
+-- === Mərkəzi bank pul əməliyyatları (DB əsaslı, offline oyunçu dəstəkli) ===
+-- Bütün server sistemləri bank pulunu bu funksiyalar vasitəsilə idarə edir ki,
+-- qbx money.bank ilə vr_accounts arasında uyğunsuzluq olmasın.
+exports('addBankMoney', function(citizenid, amount, note)
+    amount = math.floor(tonumber(amount) or 0)
+    if amount <= 0 then return false end
+    local account = getAccount(citizenid)
+    MySQL.update.await('UPDATE vr_accounts SET balance = balance + ? WHERE id = ?', { amount, account.id })
+    MySQL.insert.await('INSERT INTO vr_transactions (account_id, type, amount, note) VALUES (?, ?, ?, ?)',
+        { account.id, 'credit', amount, note or 'kredit' })
+    return true
+end)
+
+exports('removeBankMoney', function(citizenid, amount, note)
+    amount = math.floor(tonumber(amount) or 0)
+    if amount <= 0 then return false end
+    local account = getAccount(citizenid)
+    if not account or (account.balance or 0) < amount then return false end
+    MySQL.update.await('UPDATE vr_accounts SET balance = balance - ? WHERE id = ?', { amount, account.id })
+    MySQL.insert.await('INSERT INTO vr_transactions (account_id, type, amount, note) VALUES (?, ?, ?, ?)',
+        { account.id, 'debit', -amount, note or 'debet' })
+    return true
+end)
+
 -- === Balans callback (bank app üçün) ===
 lib.callback.register('vr:banking:getBalance', function(source)
     local player = qbx.getPlayer(source)
@@ -71,6 +95,8 @@ lib.callback.register('vr:banking:transfer', function(source, target, amount, no
 end)
 
 -- === Depozit / Çıxarma (cash <-> bank) ===
+-- Bank balansı vr_accounts cədvəlində saxlanır (transfer/faiz/getBalance ilə eyni mənbə),
+-- cash isə qbx money.cash-dadır. İki sistem arasında sinxronluq təmin edilir.
 lib.callback.register('vr:banking:deposit', function(source, amount)
     local player = qbx.getPlayer(source)
     if not player then return false end
@@ -79,7 +105,10 @@ lib.callback.register('vr:banking:deposit', function(source, amount)
     local cash = player.PlayerData.money.cash or 0
     if cash < amount then return false end
     player.Functions.RemoveMoney('cash', amount, 'bank-depozit')
-    player.Functions.AddMoney('bank', amount, 'bank-depozit')
+    local account = getAccount(player.PlayerData.citizenid)
+    MySQL.update.await('UPDATE vr_accounts SET balance = balance + ? WHERE id = ?', { amount, account.id })
+    MySQL.insert.await('INSERT INTO vr_transactions (account_id, type, amount, note) VALUES (?, ?, ?, ?)',
+        { account.id, 'deposit', amount, 'nağd depozit' })
     return true
 end)
 
@@ -88,9 +117,11 @@ lib.callback.register('vr:banking:withdraw', function(source, amount)
     if not player then return false end
     amount = math.floor(tonumber(amount) or 0)
     if amount <= 0 then return false end
-    local bank = player.PlayerData.money.bank or 0
-    if bank < amount then return false end
-    player.Functions.RemoveMoney('bank', amount, 'bank-çıxarış')
+    local account = getAccount(player.PlayerData.citizenid)
+    if not account or (account.balance or 0) < amount then return false end
+    MySQL.update.await('UPDATE vr_accounts SET balance = balance - ? WHERE id = ?', { amount, account.id })
+    MySQL.insert.await('INSERT INTO vr_transactions (account_id, type, amount, note) VALUES (?, ?, ?, ?)',
+        { account.id, 'withdrawal', -amount, 'nağd çıxarış' })
     player.Functions.AddMoney('cash', amount, 'bank-çıxarış')
     return true
 end)

@@ -25,7 +25,7 @@ lib.callback.register('vr:criminal:launderMoney', function(source, companyId, am
 
     -- Əvvəlcə nağd pul çıxarılır, sonra təmizlənmiş məbləğ banka keçir
     player.Functions.RemoveMoney('cash', amount, 'pul-yuma')
-    player.Functions.AddMoney('bank', cleaned, 'pul-yuma')
+    exports.vr_banking:addBankMoney(player.PlayerData.citizenid, cleaned, 'pul-yuma')
     MySQL.insert.await('INSERT INTO vr_company_registry (company_id, entry_type, details) VALUES (?, ?, ?)',
         { companyId, 'audit', ('Pul yuma əməliyyatı: %d S₺'):format(amount) })
 

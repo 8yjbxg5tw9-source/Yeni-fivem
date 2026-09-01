@@ -78,10 +78,10 @@ lib.callback.register('vr:prison:postBail', function(source, prisonerId, amount)
     if amount < config.Bail.min or amount > config.Bail.max then
         return false, 'Girov məbləği hədd xaricindədir'
     end
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < amount then return false, 'Kifayət qədər pul yoxdur' end
 
-    player.Functions.RemoveMoney('bank', amount, 'girov')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, amount, 'girov')
     MySQL.update.await('UPDATE vr_prisoners SET status = ?, bail = ? WHERE id = ?',
         { 'released', amount, prisonerId })
     return true

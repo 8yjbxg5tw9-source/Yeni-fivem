@@ -11,10 +11,10 @@ local tickets = {} -- { citizenid, number }
 lib.callback.register('vr:lottery:buyTicket', function(source)
     local player = qbx.getPlayer(source)
     if not player then return false end
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < config.Lottery.ticketPrice then return false, 'Kifayət qədər pul yoxdur' end
 
-    player.Functions.RemoveMoney('bank', config.Lottery.ticketPrice, 'lotereya-bilet')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, config.Lottery.ticketPrice, 'lotereya-bilet')
 
     -- Biletin 50%-i cekpota əlavə olunur (pul sink)
     jackpot = jackpot + math.floor(config.Lottery.ticketPrice / 2)

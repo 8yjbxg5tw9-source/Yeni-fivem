@@ -16,9 +16,9 @@ lib.callback.register('vr:academy:enroll', function(source, courseId)
     if not course then return false, 'Kurs tapılmadı' end
 
     if course.cost > 0 then
-        local bank = player.PlayerData.money.bank or 0
+        local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
         if bank < course.cost then return false, 'Kifayət qədər pul yoxdur' end
-        player.Functions.RemoveMoney('bank', course.cost, 'akademiya-kurs')
+        exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, course.cost, 'akademiya-kurs')
     end
 
     MySQL.insert.await('INSERT INTO vr_academy (citizenid, course) VALUES (?, ?)',

@@ -26,10 +26,9 @@ lib.callback.register('vr:economy:buyShares', function(source, symbol, quantity)
     if not stock then return false, 'Səhm tapılmadı' end
 
     local cost = math.floor(stock.price * quantity)
-    local bank = player.PlayerData.money.bank or 0
-    if bank < cost then return false, 'Kifayət qədər pul yoxdur' end
-
-    player.Functions.RemoveMoney('bank', cost, 'birja-alis')
+    if not exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, cost, 'birja-alis') then
+        return false, 'Kifayət qədər pul yoxdur'
+    end
 
     -- Portfelə əlavə
     local holding = MySQL.single.await('SELECT * FROM vr_stock_holdings WHERE citizenid = ? AND symbol = ?',
@@ -61,7 +60,7 @@ lib.callback.register('vr:economy:sellShares', function(source, symbol, quantity
     local proceeds = math.floor(stock.price * quantity)
 
     MySQL.update.await('UPDATE vr_stock_holdings SET shares = shares - ? WHERE id = ?', { quantity, holding.id })
-    player.Functions.AddMoney('bank', proceeds, 'birja-satis')
+    exports.vr_banking:addBankMoney(player.PlayerData.citizenid, proceeds, 'birja-satis')
 
     -- Təklif artdıqca qiymət düşür
     MySQL.update.await('UPDATE vr_stocks SET price = price * 0.99 WHERE symbol = ?', { symbol })
@@ -86,14 +85,11 @@ local function payDividends()
     end
 end
 
--- Dividend ödənişini qəbul et (pay sahibinin bankına köçür)
+-- Dividend ödənişini qəbul et (pay sahibinin bankına köçür — vr_accounts)
 RegisterNetEvent('vr:economy:dividend', function(citizenid, amount, symbol)
     amount = math.floor(tonumber(amount) or 0)
     if amount <= 0 then return end
-    local player = exports.qbx_core:GetPlayerByCitizenId(citizenid)
-    if player then
-        player.Functions.AddMoney('bank', amount, 'birja-dividend-' .. tostring(symbol))
-    end
+    exports.vr_banking:addBankMoney(citizenid, amount, 'birja-dividend-' .. tostring(symbol))
 end)
 
 -- Dividendləri dövri ödə (hər 24 saat)

@@ -94,7 +94,7 @@ lib.callback.register('vr:identity:paySurgery', function(source)
         lib.notify(source, { title = 'Plastik Cərrahiyyə', description = 'Kifayət qədər pul yoxdur.', type = 'error' })
         return false
     end
-    player.Functions.RemoveMoney('bank', config.PlasticSurgery.cost, 'plastik-cerrahiyye')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, config.PlasticSurgery.cost, 'plastik-cerrahiyye')
     return true
 end)
 

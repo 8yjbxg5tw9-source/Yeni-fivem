@@ -26,9 +26,9 @@ end)
 lib.callback.register('vr:pets:vet', function(source, petId)
     local player = qbx.getPlayer(source)
     if not player then return false end
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < config.VetCost then return false, 'Kifayət qədər pul yoxdur' end
-    player.Functions.RemoveMoney('bank', config.VetCost, 'baytar')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, config.VetCost, 'baytar')
     MySQL.update.await('UPDATE vr_pets SET health = 100 WHERE id = ?', { petId })
     return true
 end)

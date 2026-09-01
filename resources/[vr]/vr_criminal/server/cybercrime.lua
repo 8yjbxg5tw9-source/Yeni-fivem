@@ -20,7 +20,7 @@ lib.callback.register('vr:criminal:cyberAttack', function(source, targetId)
     end
 
     -- Uğurlu → qənimət
-    player.Functions.AddMoney('bank', target.reward, 'kibercinayet')
+    exports.vr_banking:addBankMoney(player.PlayerData.citizenid, target.reward, 'kibercinayet')
     MySQL.update.await('UPDATE vr_cyber_targets SET last_hit = NOW() WHERE id = ?', { targetId })
 
     -- Anomaliya flag

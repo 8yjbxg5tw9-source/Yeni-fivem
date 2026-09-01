@@ -14,9 +14,9 @@ lib.callback.register('vr:criminal:buyBlackmarket', function(source, itemId)
     local item = MySQL.single.await('SELECT * FROM vr_blackmarket WHERE id = ?', { itemId })
     if not item or item.stock <= 0 then return false, 'Stok yoxdur' end
 
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < item.price then return false, 'Kifayət qədər pul yoxdur' end
-    player.Functions.RemoveMoney('bank', item.price, 'qara-bazar')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, item.price, 'qara-bazar')
 
     MySQL.update.await('UPDATE vr_blackmarket SET stock = stock - 1 WHERE id = ?', { itemId })
 

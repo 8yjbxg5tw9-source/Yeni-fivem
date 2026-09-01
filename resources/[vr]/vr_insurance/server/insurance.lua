@@ -11,10 +11,10 @@ lib.callback.register('vr:insurance:buyPolicy', function(source, insuranceType)
     local info = config.Types[insuranceType]
     if not info then return false, 'Sığorta növü tapılmadı' end
 
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < info.premium then return false, 'Kifayət qədər pul yoxdur' end
 
-    player.Functions.RemoveMoney('bank', info.premium, 'sigorta-' .. insuranceType)
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, info.premium, 'sigorta-' .. insuranceType)
     -- Polis metadata kimi saxlanır (real istehsalda tamamlanır)
     return true
 end)

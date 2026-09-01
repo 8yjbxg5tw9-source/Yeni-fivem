@@ -31,10 +31,10 @@ lib.callback.register('vr:jobs:certify', function(source, jobId)
 
     -- Attestasiya haqqı (peşə mərkəzi kursları)
     local certCost = 5000
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < certCost then return false, 'Attestasiya üçün pul yoxdur' end
 
-    player.Functions.RemoveMoney('bank', certCost, 'attestasiya')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, certCost, 'attestasiya')
 
     -- Peşə lisenziyası ver
     exports.vr_licenses:giveLicense(source, 'professional', nil)

@@ -98,7 +98,7 @@ lib.addCommand('givemoney', {
     exports.vr_admin:audit('give_money', source, args.id, { amount = amount, reason = args.reason })
     local tPlayer = qbx.getPlayer(args.id)
     if tPlayer then
-        tPlayer.Functions.AddMoney('bank', amount, 'admin-give')
+        exports.vr_banking:addBankMoney(tPlayer.PlayerData.citizenid, amount, 'admin-give')
     end
 end)
 

@@ -130,8 +130,12 @@ return {
     ---@param player Player Player object
     ---@param payment number Payment amount
     sendPaycheck = function (player, payment)
-        player.Functions.AddMoney('bank', payment)
-        Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
-        TriggerEvent('qbx_core:server:onPaycheck', player.PlayerData.source, payment)
+        -- Bank balansı vr_accounts cədvəlində saxlanır (vr_banking); qbx money.bank ilə
+        -- uyğunsuzluğun qarşısını almaq üçün maaş birbaşa bank hesabına yazılır.
+        local ok = exports.vr_banking:addBankMoney(player.PlayerData.citizenid, payment, 'maaş')
+        if ok then
+            Notify(player.PlayerData.source, locale('info.received_paycheck', payment))
+            TriggerEvent('qbx_core:server:onPaycheck', player.PlayerData.source, payment)
+        end
     end,
 }

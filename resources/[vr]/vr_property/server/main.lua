@@ -13,10 +13,10 @@ lib.callback.register('vr:property:buy', function(source, propertyId)
     if not property then return false end
     if property.owner then return false, 'Əmlak artıq satılıb' end
 
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < property.price then return false, 'Kifayət qədər pul yoxdur' end
 
-    player.Functions.RemoveMoney('bank', property.price, 'emlak-alis')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, property.price, 'emlak-alis')
     MySQL.update.await('UPDATE vr_properties SET owner = ?, status = ? WHERE property_id = ?',
         { player.PlayerData.citizenid, 'owned', propertyId })
     return true
@@ -32,11 +32,11 @@ lib.callback.register('vr:property:buyMortgage', function(source, propertyId, do
     local property = MySQL.single.await('SELECT * FROM vr_properties WHERE property_id = ?', { propertyId })
     if not property or property.owner then return false end
 
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < downPayment then return false, 'İlkin ödəniş üçün pul yoxdur' end
 
     local mortgage = property.price - downPayment
-    player.Functions.RemoveMoney('bank', downPayment, 'ipoteka-ilk-odenis')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, downPayment, 'ipoteka-ilk-odenis')
     MySQL.update.await('UPDATE vr_properties SET owner = ?, mortgage = ?, mortgage_remaining = ?, status = ? WHERE property_id = ?',
         { player.PlayerData.citizenid, mortgage, mortgage, 'mortgaged', propertyId })
     return true
@@ -52,9 +52,9 @@ lib.callback.register('vr:property:payMortgage', function(source, propertyId, am
     local property = MySQL.single.await('SELECT * FROM vr_properties WHERE property_id = ?', { propertyId })
     if not property or property.owner ~= player.PlayerData.citizenid then return false end
 
-    local bank = player.PlayerData.money.bank or 0
+    local bank = exports.vr_banking:getBalance(player.PlayerData.citizenid)
     if bank < amount then return false end
-    player.Functions.RemoveMoney('bank', amount, 'ipoteka-odenis')
+    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, amount, 'ipoteka-odenis')
 
     local remaining = math.max(0, property.mortgage_remaining - amount)
     local status = remaining == 0 and 'owned' or 'mortgaged'
