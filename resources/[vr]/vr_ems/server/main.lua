@@ -45,12 +45,11 @@ end)
 lib.callback.register('vr:ems:canRevive', function(source, targetCharId)
     if not isEMS(source) then return false end
     local death = MySQL.single.await(
-        'SELECT * FROM vr_deaths WHERE char_id = ? AND revivable = 1 AND revived = 0 ORDER BY id DESC LIMIT 1',
+        'SELECT id, UNIX_TIMESTAMP(death_time) AS death_ts FROM vr_deaths WHERE char_id = ? AND revivable = 1 AND revived = 0 ORDER BY id DESC LIMIT 1',
         { targetCharId }
     )
-    if not death then return false end
-    local elapsed = os.time() - (death.death_time and os.time() or os.time())
-    -- sadələşdirilmiş; real istehsalda death_time timestamp ilə
+    if not death or not death.death_ts then return false end
+    local elapsed = os.time() - death.death_ts
     return elapsed <= config.ReviveWindow
 end)
 
