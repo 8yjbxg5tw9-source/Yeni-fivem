@@ -41,9 +41,9 @@ end)
 exports('payCompanySalaries', function(companyId)
     local employees = MySQL.query.await('SELECT * FROM vr_company_employees WHERE company_id = ?', { companyId })
     for _, emp in ipairs(employees) do
-        if emp.salary > 0 then
-            -- Bank hesabına köçür (vr_banking)
-            TriggerEvent('vr:economy:salaryPaid', emp.citizenid, emp.salary, emp.role)
+        if emp.salary and emp.salary > 0 then
+            -- Bank hesabına köçür (vr_banking — DB əsaslı, offline dəstəkli)
+            exports.vr_banking:addBankMoney(emp.citizenid, emp.salary, 'şirkət-maaş-' .. tostring(companyId))
         end
     end
     return true

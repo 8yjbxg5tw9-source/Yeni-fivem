@@ -1046,7 +1046,7 @@ CREATE TABLE IF NOT EXISTS `vr_cyber_targets` (
 -- 9.17 Restart planlayıcısı
 CREATE TABLE IF NOT EXISTS `vr_restart_schedule` (
     `id`          INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `scheduled_at` TIMESTAMP NOT NULL,
+    `scheduled_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `reason`      VARCHAR(255) DEFAULT NULL,
     `executed`    TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
