@@ -93,6 +93,11 @@ end
 
 exports('GetPlayer', GetPlayer)
 
+-- Qbox çərçivəsində oyunçuya çıxış üçün qısa alias.
+-- 196RP resursları `qbx.getPlayer(source)` istifadə edir; bu, qbx_core-un
+-- rəsmi exportu ilə eyni funksiyaya bağlanır ki, cross-resource çağırışlar işləsin.
+qbx.getPlayer = GetPlayer
+
 ---@param citizenid string
 ---@return Player?
 function GetPlayerByCitizenId(citizenid)

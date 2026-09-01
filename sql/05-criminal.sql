@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `vr_hot_items` (
     `serial`      VARCHAR(64) DEFAULT NULL,
     `stolen_by`   VARCHAR(50) NOT NULL,
     `stolen_at`   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `cool_down_at` TIMESTAMP DEFAULT NULL,      -- satıla biləcəyi zaman
+    `cool_down_at` TIMESTAMP NULL DEFAULT NULL,      -- satıla biləcəyi zaman
     `sold`        TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     KEY `idx_owner` (`stolen_by`)
