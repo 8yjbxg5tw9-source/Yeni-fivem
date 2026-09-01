@@ -89,12 +89,10 @@ end)
 lib.callback.register('vr:identity:paySurgery', function(source)
     local player = qbx.getPlayer(source)
     if not player then return false end
-    local money = player.PlayerData.money.bank or 0
-    if money < config.PlasticSurgery.cost then
+    if not exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, config.PlasticSurgery.cost, 'plastik-cerrahiyye') then
         lib.notify(source, { title = 'Plastik Cərrahiyyə', description = 'Kifayət qədər pul yoxdur.', type = 'error' })
         return false
     end
-    exports.vr_banking:removeBankMoney(player.PlayerData.citizenid, config.PlasticSurgery.cost, 'plastik-cerrahiyye')
     return true
 end)
 
