@@ -103,19 +103,27 @@ return {
     },
 
     giveVehicleKeys = function(src, plate, vehicle)
-        return exports.qbx_vehiclekeys:GiveKeys(src, vehicle)
+        -- Açar idarəsi vr_vehicles / ox_inventory üzərindədir; qbx_vehiclekeys quraşdırılmayıb.
+        -- Açar sadəcə maşın sahibinə verilir (DB-də player_vehicles.citizenid ilə bağlanır).
+        return true
     end,
 
     setVehicleLock = function(vehicle, state)
-        exports.qbx_vehiclekeys:SetLockState(vehicle, state)
+        -- qbx_vehiclekeys yoxdur — native ilə birbaşa qapı kilidini təyin et.
+        local lock = state == 'unlock' and 1 or 2
+        if vehicle and DoesEntityExist(vehicle) then
+            SetVehicleDoorsLocked(vehicle, lock)
+        end
     end,
 
     getSocietyAccount = function(accountName)
-        return exports['Renewed-Banking']:getAccountMoney(accountName)
+        -- Renewed-Banking quraşdırılmayıb (vr_banking istifadə olunur).
+        -- paycheckSociety = false olduğu üçün bu callback istifadə olunmur.
+        return false
     end,
 
     removeSocietyMoney = function(accountName, payment)
-        return exports['Renewed-Banking']:removeAccountMoney(accountName, payment)
+        return false
     end,
 
     ---Paycheck function
