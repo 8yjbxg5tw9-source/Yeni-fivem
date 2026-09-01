@@ -2,10 +2,24 @@
 -- vr_criminal — Liman qaçaqmalçılığı (gömrük yoxlaması ilə sinxron)
 -- ============================================================
 
+-- Qaçaqmalçılıq üçün icazə verilən əşya növləri (server tərəfdə təsdiqlənir).
+-- Client istənilən əşyanı göndərə bilməz — yalnız bu siyahıdakılar qəbul edilir.
+local SMUGGLE_ITEMS = {
+    ['electronics'] = true, -- elektronika
+    ['cigarettes']  = true, -- siqaret
+    ['alcohol']     = true, -- spirt
+    ['luxurywatch'] = true, -- lüks saat
+    ['jewelry']     = true, -- zərgərlik
+}
+
 -- === Konteyner qaçaqmalçılığı ===
 lib.callback.register('vr:criminal:smuggle', function(source, containerId, itemType)
     local player = qbx.getPlayer(source)
     if not player then return false end
+
+    if type(itemType) ~= 'string' or not SMUGGLE_ITEMS[itemType] then
+        return false, 'Bu əşya qaçaqmalçılıq siyahısında yoxdur'
+    end
 
     -- Gömrük yoxlaması riski (təsadüfi)
     local customsCheck = math.random(1, 100) <= 30 -- 30% yoxlama şansı
@@ -28,6 +42,10 @@ lib.callback.register('vr:criminal:smuggleImport', function(source, itemType, qu
     if not player then return false end
     quantity = math.floor(tonumber(quantity) or 0)
     if quantity <= 0 then return false end
+    if type(itemType) ~= 'string' or not SMUGGLE_ITEMS[itemType] then
+        return false, 'Bu əşya qaçaqmalçılıq siyahısında yoxdur'
+    end
+    quantity = math.min(quantity, 10) -- maksimum 10 ədəd (istismar limiti)
 
     -- Gömrük rüsumundan yayınma riski
     local caught = math.random(1, 100) <= 20 -- 20% risk
