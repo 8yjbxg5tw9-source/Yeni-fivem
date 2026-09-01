@@ -19,9 +19,8 @@ end
 
 exports('generateVRN', generateVRN)
 
--- Personaj yaradılanda (qbx) VRN təyin et
-AddEventHandler('qbx_core:server:characterLoaded', function(player)
-    local src = player.PlayerData.source
+-- Personaj yüklənəndə (qbx) VRN təyin et — real qbx event adı: QBCore:Server:PlayerLoaded
+AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
     local citizenid = player.PlayerData.citizenid
     local charid = player.PlayerData.cid
     local exists = MySQL.scalar.await(
@@ -32,6 +31,8 @@ AddEventHandler('qbx_core:server:characterLoaded', function(player)
 
     local firstName = player.PlayerData.charinfo.firstname or 'Vətəndaş'
     local lastName = player.PlayerData.charinfo.lastname or ''
+    -- qbx gender rəqəm olaraq gəlir (0 = male, 1 = female); DB VARCHAR gözləyir
+    local gender = (player.PlayerData.charinfo.gender == 1) and 'female' or 'male'
     local vrn = generateVRN('01')
 
     MySQL.insert.await(
@@ -39,7 +40,7 @@ AddEventHandler('qbx_core:server:characterLoaded', function(player)
         {
             citizenid, charid, vrn, firstName, lastName,
             os.date('%Y-%m-%d'), 'Asterra',
-            player.PlayerData.charinfo.gender or 'male',
+            gender,
             'O+', nil
         }
     )
