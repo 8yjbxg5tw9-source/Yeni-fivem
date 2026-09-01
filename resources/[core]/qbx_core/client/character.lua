@@ -262,6 +262,10 @@ end
 
 ---@param coords vector4
 local function spawnAt(coords)
+    if not coords or not coords.x or not coords.y or not coords.z then
+        coords = defaultSpawn
+    end
+
     DoScreenFadeOut(500)
 
     while not IsScreenFadedOut() do
@@ -270,20 +274,35 @@ local function spawnAt(coords)
 
     destroyPreviewCam()
 
-    pcall(function() exports.spawnmanager:spawnPlayer({
-        x = coords.x,
-        y = coords.y,
-        z = coords.z,
-        heading = coords.w
-    }) end)
+    local spawnOk = pcall(function()
+        exports.spawnmanager:spawnPlayer({
+            x = coords.x,
+            y = coords.y,
+            z = coords.z,
+            heading = coords.w,
+        })
+    end)
+
+    if not spawnOk then
+        -- spawnmanager uğursuz olarsa, birbaşa teleport et (qara ekranın qarşısı)
+        SetEntityCoords(cache.ped, coords.x, coords.y, coords.z, false, false, false, false)
+        SetEntityHeading(cache.ped, coords.w)
+        SetEntityVisible(cache.ped, true, false)
+    end
 
     TriggerServerEvent('QBCore:Server:OnPlayerLoaded')
     TriggerEvent('QBCore:Client:OnPlayerLoaded')
     TriggerServerEvent('qb-houses:server:SetInsideMeta', 0, false)
     TriggerServerEvent('qb-apartments:server:SetInsideMeta', 0, 0, false)
 
+    -- Ekranın açılmasını zəmanət altına al (spawnmanager-in fade-i qalmasa belə)
+    local start = GetGameTimer()
     while not IsScreenFadedIn() do
-        Wait(0)
+        if GetGameTimer() - start > 10000 then
+            DoScreenFadeIn(500)
+            break
+        end
+        Wait(100)
     end
 end
 
@@ -293,7 +312,11 @@ local function spawnDefault() -- We use a callback to make the server wait on th
 end
 
 local function spawnLastLocation()
-    spawnAt(QBX.PlayerData.position)
+    local pos = QBX.PlayerData and QBX.PlayerData.position
+    if not pos or not pos.x or not pos.y or not pos.z then
+        pos = defaultSpawn
+    end
+    spawnAt(pos)
 end
 
 ---@param cid integer

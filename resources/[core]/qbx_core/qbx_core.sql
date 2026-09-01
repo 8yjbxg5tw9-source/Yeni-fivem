@@ -44,3 +44,15 @@ CREATE TABLE IF NOT EXISTS `player_groups` (
   PRIMARY KEY (`citizenid`, `type`, `group`),
   CONSTRAINT `fk_citizenid` FOREIGN KEY (`citizenid`) REFERENCES `players` (`citizenid`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Personaj görünüşü (skin) — qbx_core preview üçün oxuyur
+CREATE TABLE IF NOT EXISTS `playerskins` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `citizenid` varchar(50) NOT NULL,
+  `model` varchar(64) NOT NULL,
+  `skin` text NOT NULL,
+  `active` tinyint(4) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `citizenid` (`citizenid`),
+  KEY `active` (`active`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
