@@ -7,7 +7,7 @@ local currentWeather = 'CLEAR'
 local currentSeason = 'summer'
 
 -- === Hava dəyiş ===
-exports('setWeather', function(weatherType)
+local function setWeather(weatherType)
     currentWeather = weatherType
     TriggerClientEvent('vr:environment:syncWeather', -1, weatherType)
     TriggerEvent('vr:weather:set', weatherType)
@@ -23,7 +23,8 @@ exports('setWeather', function(weatherType)
         -- Quraqlıq riski (uzun müddət yağışsız)
         TriggerEvent('vr:weather:drought')
     end
-end)
+end
+exports('setWeather', setWeather)
 
 -- === Fəsil dəyiş ===
 exports('setSeason', function(season)
@@ -39,7 +40,7 @@ CreateThread(function()
     while true do
         Wait(30 * 60 * 1000) -- hər 30 dəqiqə
         local w = weathers[math.random(1, #weathers)]
-        exports('setWeather')(w)
+        setWeather(w)
     end
 end)
 

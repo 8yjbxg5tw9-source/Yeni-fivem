@@ -1,0 +1,33 @@
+{
+  "language": "Azərbaycan dili",
+  "settings": "Tənzimləmələr",
+  "ui": {
+    "cancel": "Ləğv et",
+    "close": "Bağla",
+    "confirm": "Təsdiqlə",
+    "more": "Daha çox...",
+    "settings": {
+      "locale": "Dili dəyiş",
+      "locale_description": "Cari dil: ${language} (%s)",
+      "notification_audio": "Bildiriş səsi",
+      "notification_position": "Bildiriş mövqeyi"
+    },
+    "position": {
+      "bottom": "Aşağı",
+      "bottom-left": "Aşağı-sol",
+      "bottom-right": "Aşağı-sağ",
+      "center-left": "Mərkəz-sol",
+      "center-right": "Mərkəz-sağ",
+      "top": "Yuxarı",
+      "top-left": "Yuxarı-sol",
+      "top-right": "Yuxarı-sağ"
+    }
+  },
+  "open_radial_menu": "Radial menyunu aç",
+  "cancel_progress": "Cari irəliləməni ləğv et",
+  "txadmin_announcement": "Server elanı: %s",
+  "txadmin_dm": "%s-dən birbaşa mesaj",
+  "txadmin_warn": "%s tərəfindən xəbərdarlıq edildiniz",
+  "txadmin_warn_content": "%s  \nƏməliyyat ID: %s",
+  "txadmin_scheduledrestart": "Planlaşdırılmış Yenidən Başlatma"
+}

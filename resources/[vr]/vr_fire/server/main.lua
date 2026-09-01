@@ -11,13 +11,14 @@ local function isFire(source)
 end
 
 -- === Yanğın başlat (hadisə) ===
-exports('startFire', function(source, location, fireType)
+local function startFire(source, location, fireType)
     local player = qbx.getPlayer(source)
     local reportedBy = player and player.PlayerData.citizenid or 'system'
     MySQL.insert.await('INSERT INTO vr_fires (location, fire_type, reported_by) VALUES (?, ?, ?)',
         { location, fireType, reportedBy })
     return true
-end)
+end
+exports('startFire', startFire)
 
 -- === Yanğın yayılma mexanikası (dövri) ===
 CreateThread(function()
@@ -48,7 +49,7 @@ end)
 
 -- === Qaz sızması hadisəsi (partlayış riski) ===
 exports('gasLeak', function(source, location)
-    exports('startFire')(source, location, 'gas_leak')
+    startFire(source, location, 'gas_leak')
     -- Partlayış riski bildirişi
     TriggerClientEvent('vr:fire:gasWarning', -1, { location = location })
 end)

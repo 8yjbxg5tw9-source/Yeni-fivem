@@ -17,8 +17,11 @@ lib.callback.register('vr:environment:chopTree', function(source, zone)
     for _, pz in ipairs(config.ProtectedZones) do
         if zone == pz then
             -- Qorunan zonada kəsim = cərimə + flag
-            MySQL.insert.await('INSERT INTO vr_fines (char_id, reason, amount) VALUES (?, ?, ?)',
-                { (exports.vr_identity:getCharBySource(source)).id, 'Qorunan zonada ağac kəsimi', 10000 })
+            local char = exports.vr_identity:getCharBySource(source)
+            if char then
+                MySQL.insert.await('INSERT INTO vr_fines (char_id, reason, amount) VALUES (?, ?, ?)',
+                    { char.id, 'Qorunan zonada ağac kəsimi', 10000 })
+            end
             return false, 'QORUNAN ZONA! Cərimə tətbiq olundu (10 000 S₺)'
         end
     end

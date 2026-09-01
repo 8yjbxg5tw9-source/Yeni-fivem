@@ -39,11 +39,11 @@ lib.callback.register('vr:environment:harvest', function(source, plotId)
     local player = qbx.getPlayer(source)
     if not player then return false end
 
-    local plot = MySQL.single.await('SELECT * FROM vr_farm_plots WHERE plot_id = ? AND owner = ?',
+    local plot = MySQL.single.await('SELECT *, (ready_at IS NOT NULL AND ready_at <= NOW()) AS is_ready FROM vr_farm_plots WHERE plot_id = ? AND owner = ?',
         { plotId, player.PlayerData.citizenid })
     if not plot then return false, 'Sahə tapılmadı' end
-    if plot.disease then return false, 'Məhsul xəstəliyə tutulub!' end
-    if not plot.ready_at or os.time() < os.time(plot.ready_at) then return false, 'Məhsul hələ hazır deyil' end
+    if plot.disease == 1 then return false, 'Məhsul xəstəliyə tutulub!' end
+    if not plot.is_ready then return false, 'Məhsul hələ hazır deyil' end
 
     -- Məhsuldarlıq: mövsüm + torpaq keyfiyyəti + suvarma
     local season = exports.vr_environment:getSeason() or 'summer'
