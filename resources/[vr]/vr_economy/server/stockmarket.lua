@@ -86,6 +86,24 @@ local function payDividends()
     end
 end
 
+-- Dividend ödənişini qəbul et (pay sahibinin bankına köçür)
+RegisterNetEvent('vr:economy:dividend', function(citizenid, amount, symbol)
+    amount = math.floor(tonumber(amount) or 0)
+    if amount <= 0 then return end
+    local player = exports.qbx_core:GetPlayerByCitizenId(citizenid)
+    if player then
+        player.Functions.AddMoney('bank', amount, 'birja-dividend-' .. tostring(symbol))
+    end
+end)
+
+-- Dividendləri dövri ödə (hər 24 saat)
+CreateThread(function()
+    while true do
+        Wait(24 * 60 * 60 * 1000)
+        payDividends()
+    end
+end)
+
 -- === Çökmə mexanikası (birja təsadüfi volatillik) ===
 CreateThread(function()
     while true do
