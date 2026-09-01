@@ -52,6 +52,13 @@ lib.callback.register('vr:environment:illegalMining', function(source, mineralId
     local player = qbx.getPlayer(source)
     if not player then return false end
 
+    -- mineralId server config-də təsdiqlənməlidir (client uydurma ID göndərə bilməz)
+    local mineral
+    for _, m in ipairs(config.Minerals) do
+        if m.id == mineralId then mineral = m break end
+    end
+    if not mineral then return false, 'Mədən tapılmadı' end
+
     -- Yüksək aşkarlanma riski
     local caught = math.random(1, 100) <= 40
     if caught then
